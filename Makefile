@@ -10,7 +10,7 @@ CONCOURSE_WEB_NAME=concourse-web_$(CONCOURSE_VERSION)-$(WEB_PACKAGE_VERSION)_amd
 CONCOURSE_WORKER_NAME=concourse-worker_$(CONCOURSE_VERSION)-$(WORKER_PACKAGE_VERSION)_amd64
 CONCOURSE_BINARY_NAME=concourse-bin_$(CONCOURSE_VERSION)-$(BINARY_PACKAGE_VERSION)_amd64
 
-.PHONY: dist dist-concourse dist-concourse-bin dist-concourse-web dist-concourse-worker
+.PHONY: clean dist dist-concourse dist-concourse-bin dist-concourse-web dist-concourse-worker
 
 dist: dist-concourse
 
@@ -50,3 +50,13 @@ $(CONCOURSE_BINARY_NAME).deb: $(CONCOURSE) concourse-bin/control concourse-bin/m
 
 $(CONCOURSE):
 	curl -L -o $(CONCOURSE) https://github.com/concourse/concourse/releases/download/v1.6.0/concourse_linux_amd64
+
+clean:
+	-rm -r $(CONCOURSE_BINARY_NAME)
+	-rm -r $(CONCOURSE_META_NAME)
+	-rm -r $(CONCOURSE_WEB_NAME)
+	-rm -r $(CONCOURSE_WORKER_NAME)
+	-rm $(CONCOURSE_BINARY_NAME).deb
+	-rm $(CONCOURSE_META_NAME).deb
+	-rm $(CONCOURSE_WEB_NAME).deb
+	-rm $(CONCOURSE_WORKER_NAME).deb
