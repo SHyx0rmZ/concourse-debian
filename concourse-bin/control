@@ -1,0 +1,10 @@
+Package: concourse-bin
+Version: 1.6.0
+Architecture: amd64
+Maintainer: Patrick Pokatilo <mail@shyxormz.net>
+Installed-Size: 274248704
+Recommends: concourse-web (=1.6.0), concourse-worker (=1.6.0)
+Section: admin
+Priority: extra
+Homepage: http://concourse.ci/
+Description: CI that scales with your project.

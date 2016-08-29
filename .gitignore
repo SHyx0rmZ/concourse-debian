@@ -1,0 +1,9 @@
+concourse_*_amd64
+concourse_*_amd64.deb
+concourse-bin_*_amd64
+concourse-bin_*_amd64.deb
+concourse-web_*_amd64
+concourse-web_*_amd64.deb
+concourse-worker_*_amd64
+concourse-worker_*_amd64.deb
+concourse_linux_amd64.*
