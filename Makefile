@@ -33,10 +33,16 @@ $(CONCOURSE_META_NAME).deb: concourse/control
 	dpkg-deb -b $(CONCOURSE_META_NAME) $(CONCOURSE_META_NAME).deb
 
 $(CONCOURSE_WEB_NAME).deb: concourse-web/control
-	mkdir -p 
+	mkdir -p $(CONCOURSE_WEB_NAME)/DEBIAN
+	cp concourse-web/control $(CONCOURSE_WEB_NAME)/DEBIAN/control
+	chown -R root:root $(CONCOURSE_WEB_NAME)
+	dpkg-deb -b $(CONCOURSE_WEB_NAME) $(CONCOURSE_WEB_NAME).deb
 
 $(CONCOURSE_WORKER_NAME).deb: concourse-worker/control
-	touch $@
+	mkdir -p $(CONCOURSE_WORKER_NAME)/DEBIAN
+	cp concourse-worker/control $(CONCOURSE_WORKER_NAME)/DEBIAN/control
+	chown -R root:root $(CONCOURSE_WORKER_NAME)
+	dpkg-deb -b $(CONCOURSE_WORKER_NAME) $(CONCOURSE_WORKER_NAME).deb
 
 $(CONCOURSE_BINARY_NAME).deb: $(CONCOURSE) concourse-bin/control concourse-bin/md5sums
 	mkdir -p $(CONCOURSE_BINARY_NAME)/usr/bin
