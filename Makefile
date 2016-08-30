@@ -44,7 +44,13 @@ $(CONCOURSE_META_NAME).deb: concourse/control
 	chown -R root:root $(CONCOURSE_META_NAME)
 	dpkg-deb -b $(CONCOURSE_META_NAME) $(CONCOURSE_META_NAME).deb
 
-$(CONCOURSE_WEB_NAME).deb: concourse-web/control
+$(CONCOURSE_WEB_NAME).deb: concourse-web/control concourse-web/concourse-web concourse-web/concourse-web.service
+	mkdir -p $(CONCOURSE_WEB_NAME)/usr/bin
+	cp concourse-web/concourse-web $(CONCOURSE_WEB_NAME)/usr/bin/concourse-web
+	chmod +x $(CONCOURSE_WEB_NAME)/usr/bin/concourse-web
+	mkdir -p $(CONCOURSE_WEB_NAME)/usr/lib/systemd/system
+	cp concourse-web/concourse-web.service $(CONCOURSE_WEB_NAME)/usr/lib/systemd/system/concourse-web.service
+	mkdir -p $(CONCOURSE_WEB_NAME)/usr/lib/concourse
 	mkdir -p $(CONCOURSE_WEB_NAME)/DEBIAN
 	cp concourse-web/control $(CONCOURSE_WEB_NAME)/DEBIAN/control
 	chown -R root:root $(CONCOURSE_WEB_NAME)

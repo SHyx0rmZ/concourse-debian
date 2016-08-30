@@ -1,0 +1,9 @@
+[Unit]
+Requires=postgresql.service
+
+[Service]
+ExecStart=/usr/bin/concourse-web
+WorkingDirectory=/var/cache/concourse
+
+[Install]
+WantedBy=multi-user.target
