@@ -10,20 +10,32 @@ CONCOURSE_WEB_NAME=concourse-web_$(CONCOURSE_VERSION)-$(WEB_PACKAGE_VERSION)_amd
 CONCOURSE_WORKER_NAME=concourse-worker_$(CONCOURSE_VERSION)-$(WORKER_PACKAGE_VERSION)_amd64
 CONCOURSE_BINARY_NAME=concourse-bin_$(CONCOURSE_VERSION)-$(BINARY_PACKAGE_VERSION)_amd64
 
-.PHONY: clean dist dist-concourse dist-concourse-bin dist-concourse-web dist-concourse-worker
+.PHONY: clean deb-concourse deb-concourse-bin deb-concouse-web deb-concourse-worker dist dist-concourse dist-concourse-bin dist-concourse-web dist-concourse-worker
 
 dist: dist-concourse
 
 dist-concourse: dist-concourse-web dist-concourse-worker
-	$(MAKE) $(CONCOURSE_META_NAME).deb
+	$(MAKE) deb-concourse
 
 dist-concourse-bin:
-	$(MAKE) $(CONCOURSE_BINARY_NAME).deb
+	$(MAKE) deb-concourse-bin
 
 dist-concourse-web: dist-concourse-bin
-	$(MAKE) $(CONCOURSE_WEB_NAME).deb
+	$(MAKE) deb-concourse-web
 
 dist-concourse-worker: dist-concourse-bin
+	$(MAKE) deb-concourse-worker
+
+deb-concourse:
+	$(MAKE) $(CONCOURSE_META_NAME).deb
+
+deb-concourse-bin:
+	$(MAKE) $(CONCOURSE_BINARY_NAME).deb
+
+deb-concourse-web:
+	$(MAKE) $(CONCOURSE_WEB_NAME).deb
+
+deb-concourse-worker:
 	$(MAKE) $(CONCOURSE_WORKER_NAME).deb
 
 $(CONCOURSE_META_NAME).deb: concourse/control
