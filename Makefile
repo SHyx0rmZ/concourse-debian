@@ -41,7 +41,7 @@ deb-concourse-worker:
 $(CONCOURSE_META_NAME).deb: concourse/control
 	mkdir -p $(CONCOURSE_META_NAME)/DEBIAN
 	cp concourse/control $(CONCOURSE_META_NAME)/DEBIAN/control
-	sed -i -e "s/\$(CONCOURSE_VERSION)/$(CONCOURSE_VERSION)/g" -e "s/\$(META_PACKAGE_VERSION)/$(META_PACKAGE_VERSION)/g" $(CONCOURSE_META_NAME)/DEBIAN/control
+	sed -i -e "s/\$$(CONCOURSE_VERSION)/$(CONCOURSE_VERSION)/g" -e "s/\$$(META_PACKAGE_VERSION)/$(META_PACKAGE_VERSION)/g" $(CONCOURSE_META_NAME)/DEBIAN/control
 	chown -R root:root $(CONCOURSE_META_NAME)
 	dpkg-deb -b $(CONCOURSE_META_NAME) $(CONCOURSE_META_NAME).deb
 
@@ -54,14 +54,14 @@ $(CONCOURSE_WEB_NAME).deb: concourse-web/control concourse-web/concourse-web con
 	mkdir -p $(CONCOURSE_WEB_NAME)/usr/lib/concourse
 	mkdir -p $(CONCOURSE_WEB_NAME)/DEBIAN
 	cp concourse-web/control $(CONCOURSE_WEB_NAME)/DEBIAN/control
-	sed -i -e "s/\$(CONCOURSE_VERSION)/$(CONCOURSE_VERSION)/g" -e "s/\$(WEB_PACKAGE_VERSION)/$(WEB_PACKAGE_VERSION)/g" $(CONCOURSE_WEB_NAME)/DEBIAN/control
+	sed -i -e "s/\$$(CONCOURSE_VERSION)/$(CONCOURSE_VERSION)/g" -e "s/\$$(WEB_PACKAGE_VERSION)/$(WEB_PACKAGE_VERSION)/g" $(CONCOURSE_WEB_NAME)/DEBIAN/control
 	chown -R root:root $(CONCOURSE_WEB_NAME)
 	dpkg-deb -b $(CONCOURSE_WEB_NAME) $(CONCOURSE_WEB_NAME).deb
 
 $(CONCOURSE_WORKER_NAME).deb: concourse-worker/control
 	mkdir -p $(CONCOURSE_WORKER_NAME)/DEBIAN
 	cp concourse-worker/control $(CONCOURSE_WORKER_NAME)/DEBIAN/control
-	sed -i -e "s/\$(CONCOURSE_VERSION)/$(CONCOURSE_VERSION)/g" -e "s/\$(WORKER_PACKAGE_VERSION)/$(WORKER_PACKAGE_VERSION)/g" $(CONCOURSE_WORKER_NAME)/DEBIAN/control
+	sed -i -e "s/\$$(CONCOURSE_VERSION)/$(CONCOURSE_VERSION)/g" -e "s/\$$(WORKER_PACKAGE_VERSION)/$(WORKER_PACKAGE_VERSION)/g" $(CONCOURSE_WORKER_NAME)/DEBIAN/control
 	chown -R root:root $(CONCOURSE_WORKER_NAME)
 	dpkg-deb -b $(CONCOURSE_WORKER_NAME) $(CONCOURSE_WORKER_NAME).deb
 
@@ -71,7 +71,7 @@ $(CONCOURSE_BINARY_NAME).deb: $(CONCOURSE) concourse-bin/control concourse-bin/m
 	chmod +x $(CONCOURSE_BINARY_NAME)/usr/bin/concourse
 	mkdir -p $(CONCOURSE_BINARY_NAME)/DEBIAN
 	cp concourse-bin/control $(CONCOURSE_BINARY_NAME)/DEBIAN/control
-	sed -i -e "s/\$(CONCOURSE_VERSION)/$(CONCOURSE_VERSION)/g" -e "s/\$(BINARY_PACKAGE_VERSION)/$(BINARY_PACKAGE_VERSION)/g" $(CONCOURSE_BINARY_NAME)/DEBIAN/control
+	sed -i -e "s/\$$(CONCOURSE_VERSION)/$(CONCOURSE_VERSION)/g" -e "s/\$$(BINARY_PACKAGE_VERSION)/$(BINARY_PACKAGE_VERSION)/g" $(CONCOURSE_BINARY_NAME)/DEBIAN/control
 	cp concourse-bin/md5sums $(CONCOURSE_BINARY_NAME)/DEBIAN/md5sums
 	chown -R root:root $(CONCOURSE_BINARY_NAME)
 	dpkg-deb -b $(CONCOURSE_BINARY_NAME) $(CONCOURSE_BINARY_NAME).deb
