@@ -1,9 +1,9 @@
 Package: concourse-worker
-Version: 1.6.0
+Version: $(CONCOURSE_VERSION)-$(WORKER_PACKAGE_VERSION)
 Architecture: amd64
 Maintainer: Patrick Pokatilo <mail@shyxormz.net>
 Installed-Size: 0
-Depends: concourse-bin (=1.6.0), postgresql (>=9.0), systemd
+Depends: concourse-bin (>=$(CONCOURSE_VERSION)), postgresql (>=9.0), systemd
 Section: admin
 Priority: extra
 Homepage: http://concourse.ci/

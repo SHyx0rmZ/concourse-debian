@@ -1,9 +1,9 @@
 Package: concourse-bin
-Version: 1.6.0
+Version: $(CONCOURSE_VERSION)-$(BINARY_PACKAGE_VERSION)
 Architecture: amd64
 Maintainer: Patrick Pokatilo <mail@shyxormz.net>
 Installed-Size: 274248704
-Recommends: concourse-web (=1.6.0), concourse-worker (=1.6.0)
+Recommends: concourse-web (>=$(CONCOURSE_VERSION)), concourse-worker (>=$(CONCOURSE_VERSION))
 Section: admin
 Priority: extra
 Homepage: http://concourse.ci/

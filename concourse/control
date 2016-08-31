@@ -1,9 +1,9 @@
 Package: concourse
-Version: 1.6.0
+Version: $(CONCOURSE_VERSION)-$(META_PACKAGE_VERSION)
 Architecture: amd64
 Maintainer: Patrick Pokatilo <mail@shyxormz.net>
 Installed-Size: 0
-Depends: concourse-web (=1.6.0), concourse-worker (=1.6.0)
+Depends: concourse-web (>=$(CONCOURSE_VERSION)), concourse-worker (>=$(CONCOURSE_VERSION))
 Section: metapackages
 Priority: extra
 Homepage: http://concourse.ci/

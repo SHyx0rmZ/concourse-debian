@@ -1,9 +1,9 @@
 Package: concourse-web
-Version: 1.6.0
+Version: $(CONCOURSE_VERSION)-$(WEB_PACKAGE_VERSION)
 Architecture: amd64
 Maintainer: Patrick Pokatilo <mail@shyxormz.net>
 Installed-Size: 1024
-Depends: concourse-bin (=1.6.0), postgresql (>=9.0), systemd
+Depends: concourse-bin (>=$(CONCOURSE_VERSION)), postgresql (>=9.0), systemd
 Section: admin
 Priority: extra
 Homepage: http://concourse.ci/
