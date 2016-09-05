@@ -74,7 +74,7 @@ $(CONCOURSE_BINARY_NAME).deb: $(CONCOURSE) concourse-bin/control concourse-bin/m
 	sed -i -e "s/\$$(CONCOURSE_VERSION)/$(CONCOURSE_VERSION)/g" -e "s/\$$(BINARY_PACKAGE_VERSION)/$(BINARY_PACKAGE_VERSION)/g" $(CONCOURSE_BINARY_NAME)/DEBIAN/control
 	cp concourse-bin/md5sums $(CONCOURSE_BINARY_NAME)/DEBIAN/md5sums
 	chown -R root:root $(CONCOURSE_BINARY_NAME)
-	dpkg-deb -b $(CONCOURSE_BINARY_NAME) $(CONCOURSE_BINARY_NAME).deb
+	dpkg-deb -Znone -Snone -b $(CONCOURSE_BINARY_NAME) $(CONCOURSE_BINARY_NAME).deb
 
 $(CONCOURSE):
 	curl -L -o $(CONCOURSE) https://github.com/concourse/concourse/releases/download/v1.6.0/concourse_linux_amd64
