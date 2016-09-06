@@ -3,3 +3,9 @@
 if [ ! -f /usr/lib/concourse/worker_key ]; then
   ssh-keygen -t rsa -f /usr/lib/concourse/worker_key -N ''
 fi
+
+if [ -f /usr/lib/systemd/system/concourse-web.service ]; then
+  systemctl reload concourse-web
+fi
+
+systemctl start concourse-worker

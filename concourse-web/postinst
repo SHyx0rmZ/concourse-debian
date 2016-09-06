@@ -14,3 +14,5 @@ fi
 if [ ! -f /usr/lib/concourse/session_signing_key ]; then
   ssh-keygen -t rsa -f /usr/lib/concourse/session_signing_key -N ''
 fi
+
+systemctl start concourse-web
