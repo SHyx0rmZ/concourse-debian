@@ -1,0 +1,14 @@
+#!/bin/bash
+
+HOST_ADDRESS=$(ifconfig eth0 | grep -E 'inet\b' | awk '{ print $2 }')
+HOST_NAME=$(hostname)
+
+if [ -f /etc/concourse/worker ]; then
+  source /etc/concourse/worker
+fi
+
+for VAR in "${!CONCOURSE@}"; do
+  export "${VAR}"
+done
+
+/usr/bin/concourse worker
