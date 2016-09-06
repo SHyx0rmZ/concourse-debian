@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ !$(cat /etc/passwd | cut -f1 -d: | grep concourse) ]; then
-  adduser --disabled-password concourse
+  adduser --disabled-password --gecos Concourse,,, --system concourse
 fi
 
 sudo -u postgres psql -c "CREATE USER concourse WITH PASSWORD 'concourse';" 2> /dev/null
