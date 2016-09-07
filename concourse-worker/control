@@ -2,7 +2,7 @@ Package: concourse-worker
 Version: $(CONCOURSE_VERSION)-$(WORKER_PACKAGE_VERSION)
 Architecture: amd64
 Maintainer: Patrick Pokatilo <mail@shyxormz.net>
-Installed-Size: 24520
+Installed-Size: 24
 Depends: bash, concourse-bin (>=$(CONCOURSE_VERSION)), openssh-client, postgresql (>=9.0), systemd
 Section: admin
 Priority: extra
