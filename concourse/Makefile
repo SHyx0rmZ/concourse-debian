@@ -9,7 +9,7 @@ dist:
 dist-concourse:
 	$(MAKE) -C .. dist-concourse
 
-$(CONCOURSE_META_NAME).deb: concourse/control
+$(CONCOURSE_META_NAME).deb: concourse/Makefile concourse/control
 	mkdir -p $(CONCOURSE_META_NAME)/DEBIAN
 	cp concourse/control $(CONCOURSE_META_NAME)/DEBIAN/control
 	sed -i -e "s/\$$(CONCOURSE_VERSION)/$(CONCOURSE_VERSION)/g" -e "s/\$$(META_PACKAGE_VERSION)/$(META_PACKAGE_VERSION)/g" $(CONCOURSE_META_NAME)/DEBIAN/control

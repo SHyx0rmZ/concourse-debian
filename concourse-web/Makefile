@@ -9,7 +9,7 @@ dist:
 dist-concourse-web:
 	$(MAKE) -C .. dist-concourse-web
 
-$(CONCOURSE_WEB_NAME).deb: concourse-web/control concourse-web/postinst concourse-web/postrm concourse-web/prerm concourse-web/concourse-web concourse-web/concourse-web.service concourse-web/web
+$(CONCOURSE_WEB_NAME).deb: concourse-web/Makefile concourse-web/control concourse-web/postinst concourse-web/postrm concourse-web/prerm concourse-web/concourse-web concourse-web/concourse-web.service concourse-web/web
 	mkdir -p $(CONCOURSE_WEB_NAME)/etc/concourse
 	cp concourse-web/web $(CONCOURSE_WEB_NAME)/etc/concourse/web
 	chmod 0640 $(CONCOURSE_WEB_NAME)/etc/concourse/web

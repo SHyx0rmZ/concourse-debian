@@ -9,7 +9,7 @@ dist:
 dist-concourse-bin:
 	$(MAKE) -C .. dist-concourse-bin
 
-$(CONCOURSE_BINARY_NAME).deb: $(CONCOURSE) concourse-bin/control concourse-bin/md5sums
+$(CONCOURSE_BINARY_NAME).deb: $(CONCOURSE) concourse-bin/Makefile concourse-bin/control concourse-bin/md5sums
 	mkdir -p $(CONCOURSE_BINARY_NAME)/usr/bin
 	cp $(CONCOURSE) $(CONCOURSE_BINARY_NAME)/usr/bin/concourse
 	chmod +x $(CONCOURSE_BINARY_NAME)/usr/bin/concourse

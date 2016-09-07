@@ -9,7 +9,7 @@ dist:
 dist-concourse-worker:
 	$(MAKE) -C .. dist-concourse-worker
 
-$(CONCOURSE_WORKER_NAME).deb: concourse-worker/control concourse-worker/postinst concourse-worker/postrm concourse-worker/prerm concourse-worker/concourse-worker concourse-worker/concourse-worker.service concourse-worker/worker
+$(CONCOURSE_WORKER_NAME).deb: concourse-worker/Makefile concourse-worker/control concourse-worker/postinst concourse-worker/postrm concourse-worker/prerm concourse-worker/concourse-worker concourse-worker/concourse-worker.service concourse-worker/worker
 	mkdir -p $(CONCOURSE_WORKER_NAME)/etc/concourse
 	cp concourse-worker/worker $(CONCOURSE_WORKER_NAME)/etc/concourse/worker
 	chmod 0640 $(CONCOURSE_WORKER_NAME)/etc/concourse/worker
