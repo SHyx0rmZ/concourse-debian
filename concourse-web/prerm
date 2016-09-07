@@ -1,0 +1,17 @@
+#!/bin/bash
+
+systemctl stop concourse-web
+
+if [ -f /usr/lib/concourse/host_key ]; then
+  rm /usr/lib/concourse/host_key
+  rm /usr/lib/concourse/host_key.pub
+fi
+
+if [ -f /usr/lib/concourse/session_signing_key ]; then
+  rm /usr/lib/concourse/session_signing_key
+  rm /usr/lib/concoruse/session_signing_key.pub
+fi
+
+if [ -f /var/lib/concourse/authorized_worker_keys ]; then
+  rm /var/lib/concourse/authorized_worker_keys
+fi

@@ -1,0 +1,8 @@
+#!/bin/rm
+
+systemctl stop concourse-worker
+
+if [ -f /usr/lib/concourse/worker_key ]; then
+  rm /usr/lib/concourse/worker_key
+  rm /usr/lib/concourse/worker_key.pub
+fi

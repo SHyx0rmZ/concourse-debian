@@ -45,7 +45,7 @@ $(CONCOURSE_META_NAME).deb: concourse/control
 	chown -R root:root $(CONCOURSE_META_NAME)
 	dpkg-deb -b $(CONCOURSE_META_NAME) $(CONCOURSE_META_NAME).deb
 
-$(CONCOURSE_WEB_NAME).deb: concourse-web/control concourse-web/postinst concourse-web/concourse-web concourse-web/concourse-web.service concourse-web/web
+$(CONCOURSE_WEB_NAME).deb: concourse-web/control concourse-web/postinst concourse-web/postrm concourse-web/prerm concourse-web/concourse-web concourse-web/concourse-web.service concourse-web/web
 	mkdir -p $(CONCOURSE_WEB_NAME)/etc/concourse
 	cp concourse-web/web $(CONCOURSE_WEB_NAME)/etc/concourse/web
 	chmod 0640 $(CONCOURSE_WEB_NAME)/etc/concourse/web
@@ -62,10 +62,14 @@ $(CONCOURSE_WEB_NAME).deb: concourse-web/control concourse-web/postinst concours
 	sed -i -e "s/\$$(CONCOURSE_VERSION)/$(CONCOURSE_VERSION)/g" -e "s/\$$(WEB_PACKAGE_VERSION)/$(WEB_PACKAGE_VERSION)/g" $(CONCOURSE_WEB_NAME)/DEBIAN/control
 	cp concourse-web/postinst $(CONCOURSE_WEB_NAME)/DEBIAN/postinst
 	chmod +x $(CONCOURSE_WEB_NAME)/DEBIAN/postinst
+	cp concourse-web/postrm $(CONCOURSE_WEB_NAME)/DEBIAN/postrm
+	chmod +x $(CONCOURSE_WEB_NAME)/DEBIAN/postrm
+	cp concourse-web/prerm $(CONCOURSE_WEB_NAME)/DEBIAN/prerm
+	chmod +x $(CONCOURSE_WEB_NAME)/DEBIAN/prerm
 	chown -R root:root $(CONCOURSE_WEB_NAME)
 	dpkg-deb -b $(CONCOURSE_WEB_NAME) $(CONCOURSE_WEB_NAME).deb
 
-$(CONCOURSE_WORKER_NAME).deb: concourse-worker/control concourse-worker/postinst concourse-worker/concourse-worker concourse-worker/concourse-worker.service concourse-worker/worker
+$(CONCOURSE_WORKER_NAME).deb: concourse-worker/control concourse-worker/postinst concourse-worker/postrm concourse-worker/prerm concourse-worker/concourse-worker concourse-worker/concourse-worker.service concourse-worker/worker
 	mkdir -p $(CONCOURSE_WORKER_NAME)/etc/concourse
 	cp concourse-worker/worker $(CONCOURSE_WORKER_NAME)/etc/concourse/worker
 	chmod 0640 $(CONCOURSE_WORKER_NAME)/etc/concourse/worker
@@ -81,6 +85,10 @@ $(CONCOURSE_WORKER_NAME).deb: concourse-worker/control concourse-worker/postinst
 	sed -i -e "s/\$$(CONCOURSE_VERSION)/$(CONCOURSE_VERSION)/g" -e "s/\$$(WORKER_PACKAGE_VERSION)/$(WORKER_PACKAGE_VERSION)/g" $(CONCOURSE_WORKER_NAME)/DEBIAN/control
 	cp concourse-worker/postinst $(CONCOURSE_WORKER_NAME)/DEBIAN/postinst
 	chmod +x $(CONCOURSE_WORKER_NAME)/DEBIAN/postinst
+	cp concourse-worker/postrm $(CONCOURSE_WORKER_NAME)/DEBIAN/postrm
+	chmod +x $(CONCOURSE_WORKER_NAME)/DEBIAN/postrm
+	cp concourse-worker/prerm $(CONCOURSE_WORKER_NAME)/DEBIAN/prerm
+	chmod +x $(CONCOURSE_WORKER_NAME)/DEBIAN/prerm
 	chown -R root:root $(CONCOURSE_WORKER_NAME)
 	dpkg-deb -b $(CONCOURSE_WORKER_NAME) $(CONCOURSE_WORKER_NAME).deb
 
