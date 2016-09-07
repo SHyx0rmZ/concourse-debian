@@ -16,4 +16,5 @@ if [ ! -f /usr/lib/concourse/session_signing_key ]; then
 fi
 
 systemctl daemon-reload
+systemctl enable concourse-web
 systemctl start concourse-web

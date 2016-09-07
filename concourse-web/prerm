@@ -1,6 +1,7 @@
 #!/bin/bash
 
 systemctl stop concourse-web
+systemctl disable concourse-web
 
 if [ -f /usr/lib/concourse/host_key ]; then
   rm /usr/lib/concourse/host_key

@@ -9,4 +9,5 @@ if [ -f /usr/lib/systemd/system/concourse-web.service ]; then
 fi
 
 systemctl daemon-reload
+systemctl enable concourse-worker
 systemctl start concourse-worker
