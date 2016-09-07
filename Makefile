@@ -55,6 +55,7 @@ $(CONCOURSE_WEB_NAME).deb: concourse-web/control concourse-web/postinst concours
 	mkdir -p $(CONCOURSE_WEB_NAME)/usr/lib/systemd/system
 	cp concourse-web/concourse-web.service $(CONCOURSE_WEB_NAME)/usr/lib/systemd/system/concourse-web.service
 	mkdir -p $(CONCOURSE_WEB_NAME)/usr/lib/concourse
+	mkdir -p $(CONCOURSE_WEB_NAME)/var/cache/concourse
 	mkdir -p $(CONCOURSE_WEB_NAME)/var/lib/concourse
 	mkdir -p $(CONCOURSE_WEB_NAME)/DEBIAN
 	cp concourse-web/control $(CONCOURSE_WEB_NAME)/DEBIAN/control
@@ -74,6 +75,7 @@ $(CONCOURSE_WORKER_NAME).deb: concourse-worker/control concourse-worker/postinst
 	mkdir -p $(CONCOURSE_WORKER_NAME)/usr/lib/systemd/system
 	cp concourse-worker/concourse-worker.service $(CONCOURSE_WORKER_NAME)/usr/lib/systemd/system/concourse-worker.service
 	mkdir -p $(CONCOURSE_WORKER_NAME)/usr/lib/concourse
+	mkdir -p $(CONCOURSE_WORKER_NAME)/var/cache/concourse
 	mkdir -p $(CONCOURSE_WORKER_NAME)/DEBIAN
 	cp concourse-worker/control $(CONCOURSE_WORKER_NAME)/DEBIAN/control
 	sed -i -e "s/\$$(CONCOURSE_VERSION)/$(CONCOURSE_VERSION)/g" -e "s/\$$(WORKER_PACKAGE_VERSION)/$(WORKER_PACKAGE_VERSION)/g" $(CONCOURSE_WORKER_NAME)/DEBIAN/control
