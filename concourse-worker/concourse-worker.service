@@ -1,5 +1,6 @@
 [Service]
 ExecStart=/usr/bin/concourse-worker
+ExecReload=/bin/systemctl restart concourse-worker
 WorkingDirectory=/var/cache/concourse
 
 [Install]
