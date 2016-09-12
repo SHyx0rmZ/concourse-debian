@@ -21,6 +21,7 @@ $(CONCOURSE_WORKER_NAME).deb: concourse-worker/Makefile concourse-worker/control
 	mkdir -p $(CONCOURSE_WORKER_NAME)/usr/lib/concourse
 	mkdir -p $(CONCOURSE_WORKER_NAME)/var/cache/concourse
 	mkdir -p $(CONCOURSE_WORKER_NAME)/DEBIAN
+	cp concourse-worker/conffiles $(CONCOURSE_WORKER_NAME)/DEBIAN/conffiles
 	cp concourse-worker/control $(CONCOURSE_WORKER_NAME)/DEBIAN/control
 	sed -i -e "s/\$$(CONCOURSE_VERSION)/$(CONCOURSE_VERSION)/g" -e "s/\$$(WORKER_PACKAGE_VERSION)/$(WORKER_PACKAGE_VERSION)/g" $(CONCOURSE_WORKER_NAME)/DEBIAN/control
 	cp concourse-worker/postinst $(CONCOURSE_WORKER_NAME)/DEBIAN/postinst
