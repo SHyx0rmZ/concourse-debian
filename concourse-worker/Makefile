@@ -25,10 +25,13 @@ $(CONCOURSE_WORKER_NAME).deb: concourse-worker/Makefile concourse-worker/control
 	cp concourse-worker/control $(CONCOURSE_WORKER_NAME)/DEBIAN/control
 	sed -i -e "s/\$$(CONCOURSE_VERSION)/$(CONCOURSE_VERSION)/g" -e "s/\$$(WORKER_PACKAGE_VERSION)/$(WORKER_PACKAGE_VERSION)/g" $(CONCOURSE_WORKER_NAME)/DEBIAN/control
 	cp concourse-worker/postinst $(CONCOURSE_WORKER_NAME)/DEBIAN/postinst
+	sed -i -e "s/\(CONCOURSE_VERSION=\)/\1$(CONCOURSE_VERSION)/g" $(CONCOURSE_WORKER_NAME)/DEBIAN/postinst
 	chmod +x $(CONCOURSE_WORKER_NAME)/DEBIAN/postinst
 	cp concourse-worker/postrm $(CONCOURSE_WORKER_NAME)/DEBIAN/postrm
+	sed -i -e "s/\(CONCOURSE_VERSION=\)/\1$(CONCOURSE_VERSION)/g" $(CONCOURSE_WORKER_NAME)/DEBIAN/postrm
 	chmod +x $(CONCOURSE_WORKER_NAME)/DEBIAN/postrm
 	cp concourse-worker/prerm $(CONCOURSE_WORKER_NAME)/DEBIAN/prerm
+	sed -i -e "s/\(CONCOURSE_VERSION=\)/\1$(CONCOURSE_VERSION)/g" $(CONCOURSE_WORKER_NAME)/DEBIAN/prerm
 	chmod +x $(CONCOURSE_WORKER_NAME)/DEBIAN/prerm
 	chown -R root:root $(CONCOURSE_WORKER_NAME)
 	dpkg-deb -b $(CONCOURSE_WORKER_NAME) $(CONCOURSE_WORKER_NAME).deb

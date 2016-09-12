@@ -1,9 +1,37 @@
-#!/bin/rm
+#!/bin/bash
 
-systemctl stop concourse-worker
-systemctl disable concourse-worker
+CONCOURSE_VERSION=
 
-if [ -f /usr/lib/concourse/worker_key ]; then
-  rm /usr/lib/concourse/worker_key
-  rm /usr/lib/concourse/worker_key.pub
-fi
+# function do_remove(version)
+function do_remove() {
+  local VERSION="${1}"
+
+  systemctl stop concourse-worker
+  systemctl disable concourse-worker 2> /dev/null
+  systemctl daemon-reload
+
+  if [ -f /usr/lib/concourse/worker_key ]; then
+    rm /usr/lib/concourse/worker_key
+    rm /usr/lib/concourse/worker_key.pub
+  fi
+
+  if [ -d /usr/lib/concourse -a "$(ls -11 /usr/lib/concourse | wc -l)" = "0" ]; then
+    rm -r /usr/lib/concourse
+  fi
+
+  if [ -d "/var/lib/concourse/workspace/${CONCOURSE_VERSION}" ]; then
+    rm -r "/var/lib/concourse/workspace/${CONCOURSE_VERSION}"
+  fi
+}
+
+case "${1}" in
+  failed-upgrade)
+    VERSION="${2}"
+    ;;
+  remove)
+    do_remove "${CONCOURSE_VERSION}"
+    ;;
+  upgrade)
+    do_remove "${2}"
+    ;;
+esac

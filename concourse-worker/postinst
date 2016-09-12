@@ -1,13 +1,31 @@
 #!/bin/bash
 
-if [ ! -f /usr/lib/concourse/worker_key ]; then
-  ssh-keygen -t rsa -f /usr/lib/concourse/worker_key -N ''
-fi
+CONCOURSE_VERSION=
 
-if [ -f /usr/lib/systemd/system/concourse-web.service ]; then
-  systemctl reload concourse-web
-fi
+# function do_install(version)
+function do_install() {
+  local VERSION="${1}"
 
-systemctl daemon-reload
-systemctl enable concourse-worker
-systemctl start concourse-worker
+  if [ ! -f /usr/lib/concourse/worker_key ]; then
+      ssh-keygen -t rsa -f /usr/lib/concourse/worker_key -N '' > /dev/null
+    fi
+
+    if [ -f /usr/lib/systemd/system/concourse-web.service ]; then
+      systemctl reload concourse-web
+    fi
+
+    systemctl daemon-reload
+    systemctl enable concourse-worker 2> /dev/null
+    systemctl start concourse-worker
+}
+
+case "${1}" in
+  abort-remove)
+    ;;
+  abort-upgrade)
+    VERSION="${2}"
+    ;;
+  configure)
+    do_install "${2:-${CONCOURSE_VERSION}}"
+    ;;
+esac
