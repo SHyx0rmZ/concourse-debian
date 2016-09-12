@@ -2,17 +2,20 @@
 
 CONCOURSE_VERSION=
 
-# function do_remove(version)
+# function do_remove(version, delete_keys)
 function do_remove() {
   local VERSION="${1}"
+  local DELETE_KEYS="${2}"
 
   systemctl stop concourse-worker
   systemctl disable concourse-worker 2> /dev/null
   systemctl daemon-reload
 
-  if [ -f /usr/lib/concourse/worker_key ]; then
-    rm /usr/lib/concourse/worker_key
-    rm /usr/lib/concourse/worker_key.pub
+  if "${DELETE_KEYS}"; then
+    if [ -f /usr/lib/concourse/worker_key ]; then
+      rm /usr/lib/concourse/worker_key
+      rm /usr/lib/concourse/worker_key.pub
+    fi
   fi
 
   if [ -d /usr/lib/concourse -a "$(ls -11 /usr/lib/concourse | wc -l)" = "0" ]; then
@@ -29,9 +32,9 @@ case "${1}" in
     VERSION="${2}"
     ;;
   remove)
-    do_remove "${CONCOURSE_VERSION}"
+    do_remove "${CONCOURSE_VERSION}" true
     ;;
   upgrade)
-    do_remove "${2}"
+    do_remove "${2}" false
     ;;
 esac
