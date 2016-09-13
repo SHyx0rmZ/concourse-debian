@@ -24,6 +24,7 @@ $(CONCOURSE_WORKER_NAME).deb: concourse-worker/Makefile concourse-worker/control
 	cp concourse-worker/conffiles $(CONCOURSE_WORKER_NAME)/DEBIAN/conffiles
 	cp concourse-worker/control $(CONCOURSE_WORKER_NAME)/DEBIAN/control
 	sed -i -e "s/\$$(CONCOURSE_VERSION)/$(CONCOURSE_VERSION)/g" -e "s/\$$(WORKER_PACKAGE_VERSION)/$(WORKER_PACKAGE_VERSION)/g" $(CONCOURSE_WORKER_NAME)/DEBIAN/control
+	echo "$$(md5sum $(CONCOURSE_WORKER_NAME)/etc/concourse/worker $(CONCOURSE_WORKER_NAME)/usr/bin/concourse-worker $(CONCOURSE_WORKER_NAME)/usr/lib/systemd/system/concourse-worker.service | sed -e 's/\s*$(CONCOURSE_WORKER_NAME)/ /')" #> $(CONCOURSE_WORKER_NAME)/DEBIAN/md5sums
 	cp concourse-worker/postinst $(CONCOURSE_WORKER_NAME)/DEBIAN/postinst
 	sed -i -e "s/\(CONCOURSE_VERSION=\)/\1$(CONCOURSE_VERSION)/g" $(CONCOURSE_WORKER_NAME)/DEBIAN/postinst
 	chmod +x $(CONCOURSE_WORKER_NAME)/DEBIAN/postinst
