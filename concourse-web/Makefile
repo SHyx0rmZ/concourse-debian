@@ -25,6 +25,7 @@ $(CONCOURSE_WEB_NAME).deb: concourse-web/Makefile concourse-web/control concours
 	cp concourse-web/conffiles $(CONCOURSE_WEB_NAME)/DEBIAN/conffiles
 	cp concourse-web/control $(CONCOURSE_WEB_NAME)/DEBIAN/control
 	sed -i -e "s/\$$(CONCOURSE_VERSION)/$(CONCOURSE_VERSION)/g" -e "s/\$$(WEB_PACKAGE_VERSION)/$(WEB_PACKAGE_VERSION)/g" $(CONCOURSE_WEB_NAME)/DEBIAN/control
+	echo "$$(md5sum $(CONCOURSE_WEB_NAME)/etc/concourse/web $(CONCOURSE_WEB_NAME)/usr/bin/concourse-web $(CONCOURSE_WEB_NAME)/usr/lib/systemd/system/concourse-web.service | sed -e 's/\s*$(CONCOURSE_WEB_NAME)/ /')" > $(CONCOURSE_WEB_NAME)/DEBIAN/md5sums
 	cp concourse-web/postinst $(CONCOURSE_WEB_NAME)/DEBIAN/postinst
 	chmod +x $(CONCOURSE_WEB_NAME)/DEBIAN/postinst
 	cp concourse-web/postrm $(CONCOURSE_WEB_NAME)/DEBIAN/postrm
