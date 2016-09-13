@@ -6,7 +6,7 @@ CONCOURSE_VERSION=
 function do_purge() {
   local VERSION="${1}"
 
-  if [ -d /var/cache/concourse ]; then
+  if [ -d /var/cache/concourse -a "$(ls -1 /var/cache/concourse | wc -l)" = "0" -a ! -x /usr/bin/concourse-web ]; then
     rm -r /var/cache/concourse
   fi
 
@@ -22,7 +22,11 @@ function do_purge() {
     losetup -d "${device}"
   done
 
-  if [ -d /var/lib/concourse ]; then
+  if [ -d /var/lib/concourse/workspace ]; then
+    rm -r /var/lib/concourse/workspace
+  fi
+
+  if [ -d /var/lib/concourse -a "$(ls -1 /var/lib/concourse | wc -l)" = "0" ]; then
     rm -r /var/lib/concourse
   fi
 }
