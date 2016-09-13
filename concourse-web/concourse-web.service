@@ -3,6 +3,7 @@ Requires=postgresql.service
 
 [Service]
 ExecStart=/usr/bin/concourse-web
+ExecReload=/bin/systemctl restart concourse-web
 WorkingDirectory=/var/cache/concourse
 
 [Install]
