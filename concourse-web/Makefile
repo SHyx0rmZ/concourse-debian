@@ -22,6 +22,7 @@ $(CONCOURSE_WEB_NAME).deb: concourse-web/Makefile concourse-web/control concours
 	mkdir -p $(CONCOURSE_WEB_NAME)/var/cache/concourse
 	mkdir -p $(CONCOURSE_WEB_NAME)/var/lib/concourse
 	mkdir -p $(CONCOURSE_WEB_NAME)/DEBIAN
+	cp concourse-web/conffiles $(CONCOURSE_WEB_NAME)/DEBIAN/conffiles
 	cp concourse-web/control $(CONCOURSE_WEB_NAME)/DEBIAN/control
 	sed -i -e "s/\$$(CONCOURSE_VERSION)/$(CONCOURSE_VERSION)/g" -e "s/\$$(WEB_PACKAGE_VERSION)/$(WEB_PACKAGE_VERSION)/g" $(CONCOURSE_WEB_NAME)/DEBIAN/control
 	cp concourse-web/postinst $(CONCOURSE_WEB_NAME)/DEBIAN/postinst
