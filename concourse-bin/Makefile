@@ -16,7 +16,7 @@ $(CONCOURSE_BINARY_NAME).deb: $(CONCOURSE) concourse-bin/Makefile concourse-bin/
 	mkdir -p $(CONCOURSE_BINARY_NAME)/DEBIAN
 	cp concourse-bin/control $(CONCOURSE_BINARY_NAME)/DEBIAN/control
 	sed -i -e "s/\$$(CONCOURSE_VERSION)/$(CONCOURSE_VERSION)/g" -e "s/\$$(BINARY_PACKAGE_VERSION)/$(BINARY_PACKAGE_VERSION)/g" -e "s/\$$(CONCOURSE_SIZE)/$$(($$(stat -c %s $(CONCOURSE) | awk '{ print $$1 }') / 1024 + 1))/g" $(CONCOURSE_BINARY_NAME)/DEBIAN/control
-	echo "$(md5sum ${CONCOURSE} | awk '{ print $1 }') /usr/bin/concourse" > $(CONCOURSE_BINARY_NAME)/DEBIAN/md5sums
+	echo "$$(md5sum $(CONCOURSE_BINARY_NAME)/usr/bin/concourse | sed -e 's/\s*$(CONCOURSE_BINARY_NAME)/ /')" > $(CONCOURSE_BINARY_NAME)/DEBIAN/md5sums
 	chown -R root:root $(CONCOURSE_BINARY_NAME)
 	dpkg-deb -Znone -Snone -b $(CONCOURSE_BINARY_NAME) $(CONCOURSE_BINARY_NAME).deb
 
