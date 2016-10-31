@@ -1,3 +1,7 @@
+[Unit]
+Wants=network-online.target
+After=network.target network-online.target
+
 [Service]
 ExecStart=/usr/bin/concourse-worker
 ExecReload=/bin/systemctl restart concourse-worker
