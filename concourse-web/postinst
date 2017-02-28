@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [ !$(cat /etc/passwd | cut -f1 -d: | grep concourse) ]; then
+  adduser concourse
+fi
+
+sudo -u postgres psql -c "CREATE USER concourse WITH PASSWORD 'concourse';" 2> /dev/null
+sudo -u postgres psql -c "CREATE DATABASE concourse OWNER concourse;" 2> /dev/null
+
+if [ ! -f /usr/lib/concourse/host_key ]; then
+  ssh-keygen -t rsa -f /usr/lib/concourse/host_key -N ''
+fi
+
+if [ ! -f /usr/lib/concourse/session_signing_key ]; then
+  ssh-keygen -t rsa -f /usr/lib/concourse/session_signing_key -N ''
+fi

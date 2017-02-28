@@ -1,6 +1,22 @@
-#!/bin/sh
+#!/bin/bash
 
 HOST_ADDRESS=$(ifconfig eth0 | grep -E 'inet\b' | awk '{ print $2 }')
 HOST_NAME=$(hostname)
 
-/usr/bin/concourse web --basic-auth-username concourse --basic-auth-password concourse --session-signing-key /usr/lib/concourse/session_signing_key --tsa-host-key /usr/lib/concourse/host_key --tsa-authorized-keys /usr/lib/concourse/authorized_worker_keys --external-url http://${HOST_ADDRESS}:80 --postgres-data-source postgres://concourse:concourse@127.0.0.1/concourse?sslmode=disable --bind-port=80
+if [ -f /etc/concourse/web ]; then
+  source /etc/concourse/web
+fi
+
+for VAR in "${!CONCOURSE@}"; do
+  export "${VAR}"
+done
+
+AUTHORIZED_WORKERS=""
+
+for KEY in /usr/lib/concourse/worker*.pub; do
+  AUTHORIZED_WORKERS="${AUTHORIZED_WORKERS}$(cat ${KEY})\n"
+done
+
+echo -en "${AUTHORIZED_WORKERS}" > /var/lib/concourse/authorized_worker_keys
+
+/usr/bin/concourse web
