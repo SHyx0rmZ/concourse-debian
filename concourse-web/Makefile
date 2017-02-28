@@ -27,10 +27,13 @@ $(CONCOURSE_WEB_NAME).deb: concourse-web/Makefile concourse-web/control concours
 	sed -i -e "s/\$$(CONCOURSE_VERSION)/$(CONCOURSE_VERSION)/g" -e "s/\$$(WEB_PACKAGE_VERSION)/$(WEB_PACKAGE_VERSION)/g" $(CONCOURSE_WEB_NAME)/DEBIAN/control
 	echo "$$(md5sum $(CONCOURSE_WEB_NAME)/etc/concourse/web $(CONCOURSE_WEB_NAME)/usr/bin/concourse-web $(CONCOURSE_WEB_NAME)/usr/lib/systemd/system/concourse-web.service | sed -e 's/\s*$(CONCOURSE_WEB_NAME)/ /')" > $(CONCOURSE_WEB_NAME)/DEBIAN/md5sums
 	cp concourse-web/postinst $(CONCOURSE_WEB_NAME)/DEBIAN/postinst
+	sed -i -e "s/\(CONCOURSE_VERSION=\)/\1$(CONCOURSE_VERSION)/g" $(CONCOURSE_WEB_NAME)/DEBIAN/postinst
 	chmod +x $(CONCOURSE_WEB_NAME)/DEBIAN/postinst
 	cp concourse-web/postrm $(CONCOURSE_WEB_NAME)/DEBIAN/postrm
+	sed -i -e "s/\(CONCOURSE_VERSION=\)/\1$(CONCOURSE_VERSION)/g" $(CONCOURSE_WEB_NAME)/DEBIAN/postrm
 	chmod +x $(CONCOURSE_WEB_NAME)/DEBIAN/postrm
 	cp concourse-web/prerm $(CONCOURSE_WEB_NAME)/DEBIAN/prerm
+	sed -i -e "s/\(CONCOURSE_VERSION=\)/\1$(CONCOURSE_VERSION)/g" $(CONCOURSE_WEB_NAME)/DEBIAN/prerm
 	chmod +x $(CONCOURSE_WEB_NAME)/DEBIAN/prerm
 	chown -R root:root $(CONCOURSE_WEB_NAME)
 	dpkg-deb -b $(CONCOURSE_WEB_NAME) $(CONCOURSE_WEB_NAME).deb

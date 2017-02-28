@@ -1,18 +1,46 @@
 #!/bin/bash
 
-systemctl stop concourse-web
-systemctl disable concourse-web
+CONCOURSE_VERSION=
 
-if [ -f /usr/lib/concourse/host_key ]; then
-  rm /usr/lib/concourse/host_key
-  rm /usr/lib/concourse/host_key.pub
-fi
+# function do_remove(version, delete_keys)
+function do_remove() {
+  local VERSION="${1}"
+  local DELETE_KEYS="${2}"
 
-if [ -f /usr/lib/concourse/session_signing_key ]; then
-  rm /usr/lib/concourse/session_signing_key
-  rm /usr/lib/concoruse/session_signing_key.pub
-fi
+  systemctl stop concourse-web
+  systemctl disable concourse-web 2> /dev/null
+  systemctl daemon-reload
 
-if [ -f /var/lib/concourse/authorized_worker_keys ]; then
-  rm /var/lib/concourse/authorized_worker_keys
-fi
+  if "${DELETE_KEYS}"; then
+    if [ -f /usr/lib/concourse/host_key ]; then
+      rm /usr/lib/concourse/host_key
+      rm /usr/lib/concourse/host_key.pub
+    fi
+
+    if [ -f /usr/lib/concourse/session_signing_key ]; then
+      rm /usr/lib/concourse/session_signing_key
+      rm /usr/lib/concourse/session_signing_key.pub
+    fi
+  fi
+
+  if [ -d /usr/lib/concourse -a "$(ls -11 /usr/lib/concourse | wc -l)" = "0" ]; then
+    rm -r /usr/lib/concourse
+  fi
+
+  if [ -f /var/lib/concourse/authorized_worker_keys ]; then
+    rm /var/lib/concourse/authorized_worker_keys
+  fi
+}
+
+
+case "${1}" in
+  failed-upgrade)
+    VERSION="${2}"
+    ;;
+  remove)
+    do_remove "${CONCOURSE_VERSION}" true
+    ;;
+  upgrade)
+    do_remove "${2}" false
+    ;;
+esac

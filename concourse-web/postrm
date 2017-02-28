@@ -1,3 +1,35 @@
 #!/bin/bash
 
-systemctl daemon-reload
+CONCOURSE_VERSION=
+
+# function do_purge(version)
+function do_purge() {
+  local VERSION="${1}"
+
+  if [ -d /var/cache/concourse -a "$(ls -1 /var/cache/concourse 2> /dev/null | wc -l)" = "0" -a ! -x /usr/bin/concourse-worker ]; then
+    rm -r /var/cache/concourse
+  fi
+
+  if [ -d /var/lib/concourse -a "$(ls -1 /var/lib/concourse 2> /dev/null | wc -l)" = "0" ]; then
+    rm -r /var/lib/concourse
+  fi
+
+  deluser --system concourse > /dev/null
+}
+
+# function do_remove(version)
+function do_remove() {
+  local VERSION="${1}"
+}
+
+case "${1}" in
+  purge)
+    do_purge "${CONCOURSE_VERSION}"
+    ;;
+  remove)
+    do_remove "${CONCOURSE_VERSION}"
+    ;;
+  upgrade)
+    do_remove "${2}"
+    ;;
+esac

@@ -1,20 +1,38 @@
 #!/bin/bash
 
-if [ !$(cat /etc/passwd | cut -f1 -d: | grep concourse) ]; then
-  adduser --disabled-password --gecos Concourse,,, --system concourse
-fi
+CONCOURSE_VERSION=
 
-sudo -u postgres psql -c "CREATE USER concourse WITH PASSWORD 'concourse';" 2> /dev/null
-sudo -u postgres psql -c "CREATE DATABASE concourse OWNER concourse;" 2> /dev/null
+# function do_install(version)
+function do_install() {
+  local VERSION="${1}"
 
-if [ ! -f /usr/lib/concourse/host_key ]; then
-  ssh-keygen -t rsa -f /usr/lib/concourse/host_key -N ''
-fi
+  if [ !$(cat /etc/passwd | cut -f1 -d: | grep concourse) ]; then
+    adduser --disabled-password --gecos Concourse,,, --system concourse > /dev/null
+  fi
 
-if [ ! -f /usr/lib/concourse/session_signing_key ]; then
-  ssh-keygen -t rsa -f /usr/lib/concourse/session_signing_key -N ''
-fi
+  sudo -u postgres psql -c "CREATE USER concourse WITH PASSWORD 'concourse';" > /dev/null 2> /dev/null
+  sudo -u postgres psql -c "CREATE DATABASE concourse OWNER concourse;" > /dev/null 2> /dev/null
 
-systemctl daemon-reload
-systemctl enable concourse-web
-systemctl start concourse-web
+  if [ ! -f /usr/lib/concourse/host_key ]; then
+    ssh-keygen -t rsa -f /usr/lib/concourse/host_key -N '' > /dev/null
+  fi
+
+  if [ ! -f /usr/lib/concourse/session_signing_key ]; then
+    ssh-keygen -t rsa -f /usr/lib/concourse/session_signing_key -N '' > /dev/null
+  fi
+
+  systemctl daemon-reload
+  systemctl enable concourse-web 2> /dev/null
+  systemctl start concourse-web
+}
+
+case "${1}" in
+  abort-remove)
+    ;;
+  abort-upgrade)
+    VERSION="${2}"
+    ;;
+  configure)
+    do_install "${2:-${CONCOURSE_VERSION}}"
+    ;;
+esac
