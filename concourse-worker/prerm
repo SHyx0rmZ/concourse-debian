@@ -7,7 +7,40 @@ function do_remove() {
   local VERSION="${1}"
   local DELETE_KEYS="${2}"
 
-  systemctl stop concourse-worker
+  systemctl status concourse-worker > /dev/null 2> /dev/null
+  true
+
+  if [ $? -eq 0 ]; then
+    if [ -f /etc/concourse/worker ]; then
+      source /etc/concourse/worker
+    fi
+
+    local WORKER_NAME="${CONCOURSE_NAME:-$(hostname)}"
+    local TSA_HOST="${CONCOURSE_TSA_HOST:-127.0.0.1}"
+    local TSA_PUBLIC_KEY="${CONCOURSE_TSA_PUBLIC_KEY:-/usr/lib/concourse/host_key.pub}"
+    local TSA_WORKER_PRIVATE_KEY="${CONCOURSE_TSA_WORKER_PRIVATE_KEY:-/usr/lib/concourse/worker_key}"
+
+    if "${DELETE_KEYS}"; [ "${CONCOURSE_GARDEN_DESTROY_CONTAINERS_ON_STARTUP}" ]; then
+      concourse retire-worker --name "${WORKER_NAME}" --tsa-host="${TSA_HOST}" --tsa-public-key="${TSA_PUBLIC_KEY}" --tsa-worker-private-key="${TSA_WORKER_PRIVATE_KEY}" > /dev/null
+    else
+      concourse land-worker --name "${WORKER_NAME}" --tsa-host="${TSA_HOST}" --tsa-public-key="${TSA_PUBLIC_KEY}" --tsa-worker-private-key="${TSA_WORKER_PRIVATE_KEY}" > /dev/null
+    fi
+
+    if [ $? -ne 0 ]; then
+      systemctl stop concourse-worker
+    fi
+
+    systemctl status concourse-worker > /dev/null
+
+    while [ $? -ne 3 ]; do
+        sleep 1
+
+        systemctl status concourse-worker > /dev/null
+    done
+  else
+    systemctl stop concourse-worker
+  fi
+
   systemctl disable concourse-worker 2> /dev/null
   systemctl daemon-reload
 
