@@ -9,9 +9,9 @@ dist:
 dist-concourse-web:
 	$(MAKE) -C .. dist-concourse-web
 
-$(CONCOURSE_WEB_NAME).deb: concourse-web/Makefile concourse-web/control concourse-web/postinst concourse-web/postrm concourse-web/prerm concourse-web/concourse-web concourse-web/concourse-web.service concourse-web/web
+$(CONCOURSE_WEB_NAME).deb: concourse-web/Makefile concourse-web/control concourse-web/postinst concourse-web/postrm concourse-web/prerm concourse-web/concourse-web concourse-web/concourse-web.service concourse-web/web.160 concourse-web/web.272
 	mkdir -p $(CONCOURSE_WEB_NAME)/etc/concourse
-	cp concourse-web/web $(CONCOURSE_WEB_NAME)/etc/concourse/web
+	if [ "2.7.2" = "$$(echo "2.7.2\n$(CONCOURSE_VERSION)" | sort -V | head -n 1)" ]; then cp -v concourse-web/web.272 $(CONCOURSE_WEB_NAME)/etc/concourse/web; else cp -v concourse-web/web.160 $(CONCOURSE_WEB_NAME)/etc/concourse/web; fi
 	chmod 0640 $(CONCOURSE_WEB_NAME)/etc/concourse/web
 	mkdir -p $(CONCOURSE_WEB_NAME)/usr/bin
 	cp concourse-web/concourse-web $(CONCOURSE_WEB_NAME)/usr/bin/concourse-web
