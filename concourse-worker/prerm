@@ -8,7 +8,6 @@ function do_remove() {
   local DELETE_KEYS="${2}"
 
   systemctl status concourse-worker > /dev/null 2> /dev/null
-  true
 
   if [ $? -eq 0 ]; then
     if [ -f /etc/concourse/worker ]; then
