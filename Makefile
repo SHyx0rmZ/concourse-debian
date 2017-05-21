@@ -12,7 +12,7 @@ CONCOURSE_BINARY_NAME=concourse-bin_$(CONCOURSE_VERSION)-$(BINARY_PACKAGE_VERSIO
 
 export
 
-.PHONY: clean clean-concourse clean-concourse-bin clean-concourse-web clean-concourse-worker deb-concourse deb-concourse-bin deb-concouse-web deb-concourse-worker dist dist-concourse dist-concourse-bin dist-concourse-web dist-concourse-worker
+.PHONY: clean clean-concourse clean-concourse-bin clean-concourse-web clean-concourse-worker deb-concourse deb-concourse-bin deb-concourse-web deb-concourse-worker dist dist-concourse dist-concourse-bin dist-concourse-web dist-concourse-worker
 
 dist: dist-concourse
 
