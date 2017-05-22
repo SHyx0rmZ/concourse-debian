@@ -1,0 +1,30 @@
+#!/bin/bash
+
+HOST_ADDRESS=$(ifconfig eth0 | grep -E 'inet\b' | awk '{ print $2 }')
+HOST_NAME=$(hostname)
+
+if [ -f /etc/concourse/worker ]; then
+  source /etc/concourse/worker
+fi
+
+for VAR in "${!CONCOURSE@}"; do
+  export "${VAR}"
+done
+
+export CONCOURSE_NAME="${CONCOURSE_NAME:-${HOST_NAME}}"
+
+/usr/bin/concourse retire-worker
+
+EXIT_STATUS=$?
+
+if [ ${EXIT_STATUS} -ne 0 ]; then
+  exit ${EXIT_STATUS}
+fi
+
+systemctl status concourse-worker > /dev/null
+
+while [ $? -ne 3 ]; do
+    sleep 1
+
+    systemctl status concourse-worker > /dev/null
+done
