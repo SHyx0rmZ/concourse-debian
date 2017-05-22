@@ -4,6 +4,7 @@ After=network.target network-online.target
 
 [Service]
 ExecStart=/usr/bin/concourse-worker
+ExecReload=/usr/bin/concourse-land-worker
 ExecReload=/bin/systemctl restart concourse-worker
 WorkingDirectory=/var/cache/concourse
 
