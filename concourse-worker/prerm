@@ -36,10 +36,9 @@ function do_remove() {
 
         systemctl status concourse-worker > /dev/null
     done
-  else
-    systemctl stop concourse-worker
   fi
 
+  systemctl stop concourse-worker
   systemctl disable concourse-worker 2> /dev/null
   systemctl daemon-reload
 
