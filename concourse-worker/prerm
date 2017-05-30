@@ -19,11 +19,7 @@ function do_remove() {
     local TSA_PUBLIC_KEY="${CONCOURSE_TSA_PUBLIC_KEY:-/usr/lib/concourse/host_key.pub}"
     local TSA_WORKER_PRIVATE_KEY="${CONCOURSE_TSA_WORKER_PRIVATE_KEY:-/usr/lib/concourse/worker_key}"
 
-    if "${DELETE_KEYS}"; [ "${CONCOURSE_GARDEN_DESTROY_CONTAINERS_ON_STARTUP}" ]; then
-      concourse retire-worker --name "${WORKER_NAME}" --tsa-host="${TSA_HOST}" --tsa-public-key="${TSA_PUBLIC_KEY}" --tsa-worker-private-key="${TSA_WORKER_PRIVATE_KEY}" > /dev/null
-    else
-      concourse land-worker --name "${WORKER_NAME}" --tsa-host="${TSA_HOST}" --tsa-public-key="${TSA_PUBLIC_KEY}" --tsa-worker-private-key="${TSA_WORKER_PRIVATE_KEY}" > /dev/null
-    fi
+    concourse retire-worker --name "${WORKER_NAME}" --tsa-host="${TSA_HOST}" --tsa-public-key="${TSA_PUBLIC_KEY}" --tsa-worker-private-key="${TSA_WORKER_PRIVATE_KEY}" > /dev/null
 
     if [ $? -ne 0 ]; then
       systemctl stop concourse-worker
