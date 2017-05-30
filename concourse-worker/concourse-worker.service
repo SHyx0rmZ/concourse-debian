@@ -6,6 +6,7 @@ After=network.target network-online.target
 ExecStart=/usr/bin/concourse-worker
 ExecReload=/usr/bin/concourse-land-worker
 ExecReload=/bin/systemctl restart concourse-worker
+ExecStop=/usr/bin/concourse-retire-worker
 LimitNOFILE=infinity
 LimitNPROC=infinity
 WorkingDirectory=/var/cache/concourse
