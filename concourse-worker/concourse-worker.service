@@ -9,6 +9,7 @@ ExecReload=/bin/systemctl restart concourse-worker
 ExecStop=/usr/bin/concourse-retire-worker
 LimitNOFILE=infinity
 LimitNPROC=infinity
+TasksMax=infinity
 WorkingDirectory=/var/cache/concourse
 
 [Install]
