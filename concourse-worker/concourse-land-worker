@@ -28,3 +28,5 @@ while [ $? -ne 3 ]; do
 
     systemctl status concourse-worker > /dev/null
 done
+
+exit 0
